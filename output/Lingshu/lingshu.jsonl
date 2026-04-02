@@ -1,0 +1,10 @@
+{"image": "SLAKE/imgs/xmlab102/source.jpg", "question": "What modality is used to take this image?", "answer": "CT", "model_answer": "CT.", "emotion": "default"}
+{"image": "SLAKE/imgs/xmlab102/source.jpg", "question": "Which part of the body does this image belong to?", "answer": "Chest", "model_answer": "Chest.", "emotion": "default"}
+{"image": "SLAKE/imgs/xmlab102/source.jpg", "question": "What is the main organ in the image?", "answer": "Lung, Spinal Cord", "model_answer": "Lung.", "emotion": "default"}
+{"image": "SLAKE/imgs/xmlab102/source.jpg", "question": "What is the largest organ in the picture?", "answer": "Lung", "model_answer": "Lung.", "emotion": "default"}
+{"image": "SLAKE/imgs/xmlab102/source.jpg", "question": "Does the picture contain liver?", "answer": "No", "model_answer": "No.", "emotion": "default"}
+{"image": "SLAKE/imgs/xmlab102/source.jpg", "question": "Does the picture contain lung?", "answer": "Yes", "model_answer": "Yes.", "emotion": "default"}
+{"image": "SLAKE/imgs/xmlab102/source.jpg", "question": "Does the picture contain heart?", "answer": "No", "model_answer": "No.", "emotion": "default"}
+{"image": "SLAKE/imgs/xmlab102/source.jpg", "question": "What diseases are included in the picture?", "answer": "Lung Cancer", "model_answer": "Lung Cancer.", "emotion": "default"}
+{"image": "SLAKE/imgs/xmlab102/source.jpg", "question": "Is the lung healthy?", "answer": "No", "model_answer": "Yes.", "emotion": "default"}
+{"image": "SLAKE/imgs/xmlab102/source.jpg", "question": "Where is/are the abnormality located?", "answer": "Left Lung, Right", "model_answer": "Left Lung, Right.", "emotion": "default"}

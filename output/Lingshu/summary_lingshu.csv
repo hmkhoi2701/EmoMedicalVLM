@@ -1,0 +1,2 @@
+file,total,scored_total,unknown,Correct,Correct_pct,Partially Correct,Partially Correct_pct,Incorrect,Incorrect_pct,Irrelevant,Irrelevant_pct,lenient_correct,lenient_correct_pct
+lingshu_default.jsonl,1061,1061,0,917,0.8642789820923656,48,0.04524033930254477,90,0.08482563619227144,6,0.005655042412818096,965,0.9095193213949104
