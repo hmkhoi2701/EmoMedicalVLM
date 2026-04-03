@@ -62,14 +62,14 @@ for sample in tqdm(samples, desc="Processing samples"):
         {
             "role": "assistant",
             "content": [
-                {"type": "text", "text": """I'm here to help. Please share your question, and I will provide a brief answer."""},
+                {"type": "text", "text": """I'm here to help."""},
             ],
         },
         {
             "role": "user",
             "content": [
                 {"type": "image", "image": image},
-                {"type": "text", "text": question},
+                {"type": "text", "text": f"Question: {question}"},
             ],
         },
     ]
