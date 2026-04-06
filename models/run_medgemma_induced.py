@@ -18,6 +18,7 @@ parser.add_argument("--dataset", type=str, default="BoKelvin/SLAKE", help="The d
 parser.add_argument("--split", type=str, default="test", help="The split of the dataset to run the model on.")
 parser.add_argument("--output_file", type=str, default="output/medgemma.jsonl", help="The file to save the model's predictions to.")
 parser.add_argument("--emotion", type=str, default="default", help="The emotion category for the user prompt.")
+parser.add_argument("--yes_no", action="store_true", help="Whether to filter yes/no questions and include them in the prompt.")
 args = parser.parse_args()
 
 # Create output directory if it doesn't exist
@@ -38,7 +39,7 @@ model.config.pad_token_id = processor.tokenizer.pad_token_id
 model.generation_config.pad_token_id = processor.tokenizer.pad_token_id
 
 # Load dataset
-samples = get_dataset(args.dataset, args.split)
+samples = get_dataset(args.dataset, args.split, args.yes_no)
 
 
 # Run
@@ -69,7 +70,7 @@ for sample in tqdm(samples, desc="Processing samples"):
             "role": "user",
             "content": [
                 {"type": "image", "image": image},
-                {"type": "text", "text": f"Question: {question}"},
+                {"type": "text", "text": f"Question: {question} {'Please answer with Yes or No.' if args.yes_no else ''}"},
             ],
         },
     ]

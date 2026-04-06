@@ -2,12 +2,14 @@ from datasets import load_dataset
 import pandas as pd
 import os
 
-def get_dataset(dataset_name, split):
+def get_dataset(dataset_name, split, yes_no=False):
     if dataset_name == 'BoKelvin/SLAKE' or dataset_name == 'SLAKE':
         assert split in ['train', 'validation', 'test'], "Split must be one of 'train', 'validation', or 'test'."
         splits = {'train': 'train.json', 'validation': 'validation.json', 'test': 'test.json'}
         df = pd.read_json("SLAKE/" + splits[split])
         df = df[df['q_lang'] == 'en']
+        if yes_no:
+            df = df[df['answer'].isin(['Yes', 'No'])]
         samples = []
         for _, row in df.iterrows():
             samples.append({
