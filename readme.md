@@ -8,6 +8,15 @@ git lfs pull
 unzip imgs.zip
 ```
 
+## Download the VQA dataset
+
+```bash
+apt install -y git-lfs
+git clone https://huggingface.co/datasets/flaviagiammarino/vqa-rad
+cd vqa-rad
+git lfs pull
+```
+
 ## Test runs with MedGemma
 
 For a single run with default prompt, run 
