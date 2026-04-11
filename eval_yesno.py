@@ -49,7 +49,7 @@ messages = [
 ]
 
 for file in sorted(os.listdir(args.output_dir)):
-    if file.startswith(args.file_prefix) and file.endswith(".jsonl"):
+    if file.startswith(args.file_prefix) and file.endswith(".jsonl") and "_closed" in file:
         print(f"Evaluating {file}...")
         with open(os.path.join(args.output_dir, file), "r") as f:
             data = [json.loads(line) for line in f]
@@ -96,14 +96,14 @@ for file in sorted(os.listdir(args.output_dir)):
 
             for item, response in zip(batch, responses):
                 evaluation = response.strip().split("Evaluation:")[-1].strip()
-                if "Yes" in evaluation:
+                if evaluation.startswith("Yes"):
                     evaluation = "Yes"
-                elif "No" in evaluation:
+                elif evaluation.startswith("No"):
                     evaluation = "No"
                 else:
-                    pass
+                    evaluation = "Unknown"
                 item["evaluation"] = evaluation
 
         with open(os.path.join(args.output_dir, "eval_" + file), "w") as f:
             for item in data:
-                f.write(json.dumps(item) + "\n")
+                f.write(json.dumps(item, ensure_ascii=False) + "\n")
