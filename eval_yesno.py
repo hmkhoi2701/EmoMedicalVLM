@@ -25,7 +25,7 @@ tokenizer.padding_side = "left"
 parser = argparse.ArgumentParser()
 parser.add_argument("--output_dir", type=str, default="output", help="The directory to save results.")
 parser.add_argument("--file_prefix", type=str, default="medgemma_", help="Run eval on a specific file prefix")
-parser.add_argument("--batch_size", type=int, default=1, help="Batch size for evaluation")
+parser.add_argument("--batch_size", type=int, default=8, help="Batch size for evaluation")
 args = parser.parse_args()
 
 messages = [
@@ -86,7 +86,7 @@ for file in sorted(os.listdir(args.output_dir)):
 
             generated_ids = model.generate(
                 **model_inputs,
-                max_new_tokens=512,
+                max_new_tokens=5,
                 do_sample=False,
                 pad_token_id=tokenizer.pad_token_id,
             )
