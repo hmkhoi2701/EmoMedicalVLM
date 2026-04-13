@@ -14,3 +14,11 @@ logs/
 
 # system
 .DS_Store
+
+#Datasets
+/SLAKE/
+/vqa-rad/
+
+#Models
+/LLaVA-Med/
+/Hulu-Med/
