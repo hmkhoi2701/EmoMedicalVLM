@@ -27,5 +27,5 @@ test*.ipynb
 .DS_Store
 
 # models
-Hulu-Med/
-LLaVA-Med/
+/Hulu-Med/
+/LLaVA-Med/
