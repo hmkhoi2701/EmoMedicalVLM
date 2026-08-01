@@ -1,5 +1,8 @@
 __pycache__/
-/test.ipynb
-/SLAKE/
-/Hulu-Med/
-/LLaVA-Med/
+test.ipynb
+LLaVA-Med/
+HuatuoGPT-Vision/
+Janus/
+datasets/
+.vscode/
+output/smoke_test/images

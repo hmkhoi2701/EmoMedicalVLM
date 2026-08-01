@@ -9,7 +9,8 @@ import sys
 sys.path.insert(0, str(Path(__file__).resolve().parent.parent))
 
 from data_utils import get_dataset
-from emotion_prompts import USER_PROMPTS_MAIN
+from smoke_test.emotion_prompts import render_prompt
+from utils import build_output_dict, get_image_path
 
 from transformers import AutoModelForCausalLM, AutoProcessor
 
@@ -20,9 +21,7 @@ parser.add_argument("--split", type=str, default="test")
 parser.add_argument("--output_file", type=str, default="output/Hulu-Med/hulumed.jsonl")
 parser.add_argument("--emotion", type=str, default="default")
 parser.add_argument("--model_path", type=str, default="ZJU-AI4H/Hulu-Med-4B")
-parser.add_argument("--temperature", type=float, default=0.0)
-parser.add_argument("--top_p", type=float, default=None)
-parser.add_argument("--max_new_tokens", type=int, default=200)
+parser.add_argument("--max_new_tokens", type=int, default=2048)
 parser.add_argument("--max_samples", type=int, default=None)
 parser.add_argument("--yes_no", action="store_true", help="Whether to filter yes/no questions and force a Yes/No answer.")
 args = parser.parse_args()
@@ -35,7 +34,6 @@ model = AutoModelForCausalLM.from_pretrained(
     trust_remote_code=True,
     torch_dtype=torch.bfloat16,
     device_map="auto",
-    attn_implementation="sdpa",
 )
 
 processor = AutoProcessor.from_pretrained(
@@ -48,9 +46,10 @@ if args.max_samples is not None:
     samples = samples[:args.max_samples]
 
 for sample in tqdm(samples, desc="Processing samples"):
-    prompt_text = USER_PROMPTS_MAIN[args.emotion].format(question=sample["question"])
+    image_path = get_image_path(sample, args.dataset.lower(), output_dir / "images")
+    prompt_text = render_prompt(args.emotion, sample["question"])
     if args.yes_no:
-        prompt_text += " Please answer with 'Yes' or 'No'."
+        prompt_text += " Please answer with 'Yes' or 'No'. No extra explanation and filler words."
 
     conversation = [
         {
@@ -59,7 +58,7 @@ for sample in tqdm(samples, desc="Processing samples"):
                 {
                     "type": "image",
                     "image": {
-                        "image_path": sample["image"],
+                        "image_path": image_path,
                     },
                 },
                 {
@@ -88,15 +87,8 @@ for sample in tqdm(samples, desc="Processing samples"):
     gen_kwargs = {
         "max_new_tokens": args.max_new_tokens,
         "use_cache": True,
+        "do_sample": False,
     }
-
-    if args.temperature > 0:
-        gen_kwargs["do_sample"] = True
-        gen_kwargs["temperature"] = args.temperature
-        if args.top_p is not None:
-            gen_kwargs["top_p"] = args.top_p
-    else:
-        gen_kwargs["do_sample"] = False
 
     with torch.inference_mode():
         output_ids = model.generate(**inputs, **gen_kwargs)
@@ -107,17 +99,7 @@ for sample in tqdm(samples, desc="Processing samples"):
         use_think=False,
     )[0].strip()
 
-    write_dict = {
-        "image": sample["image"],
-        "question": sample["question"],
-        "answer": sample["answer"],
-        "model_answer": decoded,
-        "emotion": args.emotion,
-        "location": sample["location"],
-        "modality": sample["modality"],
-        "answer_type": sample["answer_type"],
-        "content_type": sample["content_type"],
-    }
+    write_dict = build_output_dict(sample, sample["question"], decoded, args.emotion, args.dataset)
 
     with open(args.output_file, "a") as f:
         f.write(json.dumps(write_dict) + "\n")

@@ -73,7 +73,7 @@
 
 #                 generated_ids = model.generate(
 #                     **model_inputs,
-#                     max_new_tokens=512,
+#                     max_new_tokens=2048,
 #                     do_sample=False,
 #                 )
 #                 generated_ids = [
@@ -174,7 +174,7 @@ for file in sorted(os.listdir(args.output_dir)):
 
             generated_ids = model.generate(
                 **model_inputs,
-                max_new_tokens=512,
+                max_new_tokens=2048,
                 do_sample=False,
                 pad_token_id=tokenizer.pad_token_id,
             )
